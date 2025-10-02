@@ -2,25 +2,34 @@ name: Run Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main", "develop" ] # adjust as needed
   pull_request:
-    branches: [ main ]
+    branches: [ "main", "develop" ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests with coverage
+      - name: Run tests
         run: npm test
+
+      # 🔽 This will comment on the PR if tests fail
+      - name: Comment on PR if tests fail
+        if: failure()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: jest-test-failure
+          message: |
+            🚨 Hey @${{ github.actor }}, your tests failed!
+            Please fix them before merging.
