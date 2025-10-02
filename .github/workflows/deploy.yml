@@ -1,27 +1,27 @@
 name: Deploy to Vercel
 
 on:
-    push:
-        branches:
-            - main # only deploy when main is updated
+  push:
+    branches:
+      - main   # only run on pushes to main
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Install dependencies
-              run: npm install
+      - name: Install dependencies
+        run: npm install
 
-            - name: Build project
-              run: npm run build
+      - name: Build project
+        run: npm run build
 
-            - name: Deploy to Vercel
-              run: |
-                  npm install -g vercel
-                  vercel --token ${{ secrets.VERCEL_TOKEN }} \
-                         --prod \
-                         --confirm \
-                         --project ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Deploy to Vercel
+        run: |
+          npm install -g vercel
+          vercel --token ${{ secrets.VERCEL_TOKEN }} \
+                 --prod \
+                 --confirm \
+                 --project ${{ secrets.VERCEL_PROJECT_ID }}
