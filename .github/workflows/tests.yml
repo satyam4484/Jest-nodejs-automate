@@ -2,12 +2,13 @@ name: Run Tests
 
 on:
   push:
-    branches: [ "main", "develop" ] # adjust as needed
+    branches:
+      - '**'
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: ['**']
 
 jobs:
-  test:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
