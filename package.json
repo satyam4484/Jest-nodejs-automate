@@ -4,7 +4,8 @@
     "supertest": "^7.1.4"
   },
   "scripts": {
-    "test": "jest --config jest.config.js"
+    "test": "jest --config jest.config.js",
+    "build": "echo 'No build step required'"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.6",
