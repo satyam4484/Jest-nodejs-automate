@@ -33,7 +33,7 @@ jobs:
             DEPLOY_OUTPUT=$(vercel --prod --yes --token $VERCEL_TOKEN)
           else
             # Preview deployment for feature branches
-            DEPLOY_OUTPUT=$(vercel --yes --token $VERCEL_TOKEN --prebuilt)
+            DEPLOY_OUTPUT=$(vercel --yes --token $VERCEL_TOKEN)
           fi
 
           echo "$DEPLOY_OUTPUT"
