@@ -33,14 +33,16 @@ jobs:
             DEPLOY_OUTPUT=$(vercel --prod --yes --token $VERCEL_TOKEN)
           else
             # Preview deployment for feature branches
-            DEPLOY_OUTPUT=$(vercel --yes --token $VERCEL_TOKEN
+            DEPLOY_OUTPUT=$(vercel --yes --token $VERCEL_TOKEN --prebuilt)
           fi
+
           echo "$DEPLOY_OUTPUT"
           # Extract deployed URL
           DEPLOY_URL=$(echo "$DEPLOY_OUTPUT" | grep -Eo 'https?://[a-zA-Z0-9.-]+\.vercel\.app')
           echo "Deployed URL: $DEPLOY_URL"
           # Make URL available to next steps
           echo "VERCEL_DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
+
 
       - name: Log deployed URL
         run: echo "Project deployed at $VERCEL_DEPLOY_URL"
