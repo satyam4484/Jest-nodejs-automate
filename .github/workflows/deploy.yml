@@ -28,21 +28,24 @@ jobs:
       - name: Deploy to Vercel
         id: vercel_deploy
         run: |
-          if [ "${GITHUB_REF##*/}" = "main" ]; then
+          BRANCH_NAME=$(echo "${GITHUB_REF##*/}" | tr '/' '-')  # convert slashes to dashes
+          
+          if [ "$BRANCH_NAME" = "main" ]; then
             # Production deployment
             DEPLOY_OUTPUT=$(vercel --prod --yes --token $VERCEL_TOKEN)
           else
-            # Preview deployment for feature branches
-            DEPLOY_OUTPUT=$(vercel --yes --token $VERCEL_TOKEN)
+            # Preview deployment for feature branches with alias
+            DEPLOY_OUTPUT=$(vercel --yes --token $VERCEL_TOKEN --prebuilt --prod-alias ${BRANCH_NAME}.jest-nodejs-automate.vercel.app)
           fi
 
           echo "$DEPLOY_OUTPUT"
+          
           # Extract deployed URL
           DEPLOY_URL=$(echo "$DEPLOY_OUTPUT" | grep -Eo 'https?://[a-zA-Z0-9.-]+\.vercel\.app')
           echo "Deployed URL: $DEPLOY_URL"
+          
           # Make URL available to next steps
           echo "VERCEL_DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
-
 
       - name: Log deployed URL
         run: echo "Project deployed at $VERCEL_DEPLOY_URL"
