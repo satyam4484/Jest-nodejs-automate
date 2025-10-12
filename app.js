@@ -9,8 +9,6 @@ let users = [
     { id: 2, name: "Bob Smith", email: "bob@example.com" },
     { id: 3, name: "Charlie Brown", email: "charlie@example.com" }
 ];
-
-
 /* -----------------------------
    Helper Functions (reusable)
 ------------------------------*/
