@@ -24,11 +24,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Verify Vercel Token
-        run: vercel whoami --token $VERCEL_TOKEN
+      
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+
+      - name: Verify Vercel Token
+        run: vercel whoami --token $VERCEL_TOKEN
       - name: Deploy to Vercel
         run: vercel --prod --yes
 
