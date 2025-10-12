@@ -40,7 +40,7 @@ function resetUsers() {
 
 // 1. Root route
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to User API Satyam Singh 🚀" });
+    res.json({ message: "Welcome to User API Satyam Singh  from test 🚀" });
 });
 
 // 2. Create user

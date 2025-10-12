@@ -1,10 +1,9 @@
 name: Deploy to Vercel
 
-
 on:
   push:
     branches:
-      - '**'   # only run on pushes to main
+      - '**'  # run on all pushes
 
 jobs:
   deploy:
@@ -13,22 +12,25 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-
-
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
-
 
       - name: Install dependencies
         run: npm install
-
-      
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
       - name: Verify Vercel Token
         run: vercel whoami --token $VERCEL_TOKEN
+
       - name: Deploy to Vercel
-        run: vercel --prod --yes --token $VERCEL_TOKEN
+        run: |
+          if [ "${GITHUB_REF##*/}" = "main" ]; then
+            # Production deployment for main branch
+            vercel --prod --yes --token $VERCEL_TOKEN
+          else
+            # Preview deployment for all other branches
+            vercel --yes --token $VERCEL_TOKEN --prebuilt
+          fi
