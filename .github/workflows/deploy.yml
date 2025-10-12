@@ -32,5 +32,5 @@ jobs:
       - name: Verify Vercel Token
         run: vercel whoami --token $VERCEL_TOKEN
       - name: Deploy to Vercel
-        run: vercel --prod --yes
+        run: vercel --prod --yes --token $VERCEL_TOKEN
 
