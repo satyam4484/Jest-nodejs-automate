@@ -1,48 +1,48 @@
-name: Deploy to Vercel
+# name: Deploy to Vercel
 
-on:
-  push:
-    branches:
-      - '**'  # run on all pushes
+# on:
+#   push:
+#     branches:
+#       - '**'  # run on all pushes
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    env:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     env:
+#       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+#       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+#       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: npm install
+#       - name: Install dependencies
+#         run: npm install
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+#       - name: Install Vercel CLI
+#         run: npm install --global vercel@latest
 
-      - name: Verify Vercel Token
-        run: vercel whoami --token $VERCEL_TOKEN
+#       - name: Verify Vercel Token
+#         run: vercel whoami --token $VERCEL_TOKEN
 
-      - name: Deploy to Vercel
-        id: vercel_deploy
-        run: |
-          if [ "${GITHUB_REF##*/}" = "main" ]; then
-            # Production deployment
-            DEPLOY_OUTPUT=$(vercel --prod --yes --token $VERCEL_TOKEN)
-          else
-            # Preview deployment for feature branches
-            DEPLOY_OUTPUT=$(vercel --yes --token $VERCEL_TOKEN)
-          fi
+#       - name: Deploy to Vercel
+#         id: vercel_deploy
+#         run: |
+#           if [ "${GITHUB_REF##*/}" = "main" ]; then
+#             # Production deployment
+#             DEPLOY_OUTPUT=$(vercel --prod --yes --token $VERCEL_TOKEN)
+#           else
+#             # Preview deployment for feature branches
+#             DEPLOY_OUTPUT=$(vercel --yes --token $VERCEL_TOKEN)
+#           fi
 
-          echo "$DEPLOY_OUTPUT"
-          # Extract deployed URL
-          DEPLOY_URL=$(echo "$DEPLOY_OUTPUT" | grep -Eo 'https?://[a-zA-Z0-9.-]+\.vercel\.app')
-          echo "Deployed URL: $DEPLOY_URL"
-          # Make URL available to next steps
-          echo "VERCEL_DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
+#           echo "$DEPLOY_OUTPUT"
+#           # Extract deployed URL
+#           DEPLOY_URL=$(echo "$DEPLOY_OUTPUT" | grep -Eo 'https?://[a-zA-Z0-9.-]+\.vercel\.app')
+#           echo "Deployed URL: $DEPLOY_URL"
+#           # Make URL available to next steps
+#           echo "VERCEL_DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
 
 
-      - name: Log deployed URL
-        run: echo "Project deployed at $VERCEL_DEPLOY_URL"
+#       - name: Log deployed URL
+#         run: echo "Project deployed at $VERCEL_DEPLOY_URL"
